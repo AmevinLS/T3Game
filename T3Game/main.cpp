@@ -5,6 +5,7 @@
 #include "t3_game.h"
 
 using namespace std;
+using namespace T3;
 
 int main()
 {

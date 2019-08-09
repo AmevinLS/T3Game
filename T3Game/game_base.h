@@ -2,17 +2,25 @@
 
 using namespace std;
 
-class invalid_move : public exception
+namespace Game
 {
+	class invalid_move : public exception
+	{
 
-};
+	};
 
-class State
-{
+	class State
+	{
 
-};
+	};
 
-class Move
-{
+	class Player
+	{
 
-};
+	};
+
+	class Move
+	{
+
+	};
+}
