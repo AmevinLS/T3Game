@@ -59,9 +59,9 @@ namespace T3 {
 				}
 				catch (invalid_move)
 				{
-					//cout << "Invalid move, try again." << endl;
+
 				}
-				srand(time(NULL));
+				srand(unsigned int(time(NULL)));
 			}
 		}
 	};

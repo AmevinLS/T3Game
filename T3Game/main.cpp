@@ -39,35 +39,6 @@ Outcome run_game(map<Mark, Player*> players)
 
 int main()
 {
-	//State testState;
-	//int i, j;
-	//Mark mark;
-	//int counter = 0;
-	//Outcome outcome = UNFINISHED;
-
-	//while (outcome == UNFINISHED && cin >> i >> j)
-	//{
-	//	if (counter % 2 == 0)
-	//		mark = X;
-	//	else
-	//		mark = O;
-
-	//	//mark = (counter % 2 == 0) ? X : O;
-
-	//	try
-	//	{
-	//		Move move(mark, i - 1, j - 1);
-	//		testState += move;
-	//		counter++;
-	//		cout << testState;
-	//		outcome = testState.outcome();			
-	//	}
-	//	catch (invalid_move)
-	//	{
-	//		cout << "Invalid move" << endl;
-	//	}
-	//}
-
 	map<Mark, Player*> players;
 	RandomPlayer a;
 	RandomPlayer b;
