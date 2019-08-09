@@ -2,6 +2,7 @@
 
 #include "game_base.h"
 #include "t3_game.h"
+#include <ctime>
 
 namespace T3 {
 	class Player : public Game::Player
@@ -13,7 +14,7 @@ namespace T3 {
 	class HumanPlayer : public Player
 	{
 	public:
-		virtual Move select_move(const State& state)
+		Move select_move(const State& state) override
 		{
 			int i = 0, j = 0;
 
@@ -39,6 +40,29 @@ namespace T3 {
 
 	class RandomPlayer : public Player
 	{
+	public:
+		Move select_move(const State& state) override
+		{
+			int i = 0, j = 0;
 
+			while (true)
+			{
+				i = rand() % 3;
+				j = rand() % 3;
+				try {
+
+					Move res(state.get_curr_mark(), i, j);
+					if (state.is_legal_move(res))
+						return res;
+					else
+						throw invalid_move();
+				}
+				catch (invalid_move)
+				{
+					//cout << "Invalid move, try again." << endl;
+				}
+				srand(time(NULL));
+			}
+		}
 	};
 }

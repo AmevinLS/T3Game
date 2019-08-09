@@ -17,7 +17,7 @@ Outcome run_game(map<Mark, Player*> players)
 	int counter = 0;
 	while (outcome == UNFINISHED)
 	{
-		cout << current_state;
+		cout << current_state << endl;
 
 		// Choose player to move
 		Player& curr_player = *players[current_state.get_curr_mark()];
@@ -69,8 +69,8 @@ int main()
 	//}
 
 	map<Mark, Player*> players;
-	HumanPlayer a;
-	HumanPlayer b;
+	RandomPlayer a;
+	RandomPlayer b;
 	players[X] = &a;
 	players[O] = &b;
 	Outcome outcome = run_game(players);
