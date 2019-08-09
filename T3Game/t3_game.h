@@ -160,6 +160,7 @@ namespace T3
 			else
 			{
 				state.set(i, j, mark);
+				state.curr_player = (state.curr_player == X) ? O : X;
 			}
 		}
 		State operator+(const Move& move) const
