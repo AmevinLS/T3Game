@@ -47,14 +47,14 @@ namespace T3
 	{
 	public:
 		State()
-			:curr_player(X)
+			:curr_mark(X)
 		{
 			for (int i = 0; i < 3; i++)
 				for (int j = 0; j < 3; j++)
 					grid[i][j] = EMPTY;
 		}
 		State(const State& state)
-			:curr_player(state.curr_player)
+			:curr_mark(state.curr_mark)
 		{
 			for (int i = 0; i < 3; i++)
 				for (int j = 0; j < 3; j++)
@@ -147,20 +147,15 @@ namespace T3
 			int i = move.i;
 			int j = move.j;
 			Mark mark = move.mark;
-			if (mark != state.curr_player)
+			
+			if (!state.is_legal_move(move))
 			{
-				throw invalid_move();
-			}
-
-			if (state(i, j) != EMPTY)
-			{
-				//INVALID MOVE, do smth
 				throw invalid_move();
 			}
 			else
 			{
 				state.set(i, j, mark);
-				state.curr_player = (state.curr_player == X) ? O : X;
+				state.curr_mark = (state.curr_mark == X) ? O : X;
 			}
 		}
 		State operator+(const Move& move) const
@@ -175,13 +170,27 @@ namespace T3
 			return grid[i][j];
 		}
 
+		Mark get_curr_mark() const
+		{
+			return curr_mark;
+		}
+
+		bool is_legal_move(Move move) const
+		{
+			int i = move.i;
+			int j = move.j;
+			int mark = move.mark;
+
+			return (mark == curr_mark) && (operator()(i, j) == EMPTY);
+		}
+
 	private:
 		void set(int i, int j, Mark mark)
 		{
 			grid[i][j] = mark;
 		}
 
-		Mark curr_player;
+		Mark curr_mark;
 		array<array<Mark, 3>, 3> grid;
 	};
 }

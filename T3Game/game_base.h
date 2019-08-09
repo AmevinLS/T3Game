@@ -14,13 +14,15 @@ namespace Game
 
 	};
 
-	class Player
+	class Move
 	{
 
 	};
 
-	class Move
+	class Player
 	{
+	public:
+		//virtual Move select_move(const State& state);
 
 	};
 }
