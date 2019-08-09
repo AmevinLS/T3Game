@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="game_base.h" />
     <ClInclude Include="t3_game.h" />
+    <ClInclude Include="t3_players.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

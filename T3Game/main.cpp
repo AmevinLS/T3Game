@@ -9,11 +9,11 @@ using namespace T3;
 
 int main()
 {
-	T3State testState;
+	State testState;
 	int i, j;
 	Mark mark;
 	int counter = 0;
-	T3Outcome outcome = UNFINISHED;
+	Outcome outcome = UNFINISHED;
 
 	while (outcome == UNFINISHED && cin >> i >> j)
 	{
@@ -24,7 +24,7 @@ int main()
 
 		try
 		{
-			T3Move move(mark, i - 1, j - 1);
+			Move move(mark, i - 1, j - 1);
 			testState += move;
 			counter++;
 			cout << testState;

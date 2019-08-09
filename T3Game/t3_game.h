@@ -17,7 +17,7 @@ namespace T3
 		X = 1,
 		O = -1,
 	};
-	enum T3Outcome
+	enum Outcome
 	{
 		TIE,
 		X_WINS,
@@ -26,10 +26,10 @@ namespace T3
 	};
 
 
-	class T3Move :public Game::Move
+	class Move :public Game::Move
 	{
 	public:
-		T3Move(Mark m, int a, int b)
+		Move(Mark m, int a, int b)
 			:mark(m), i(a), j(b)
 		{
 			if (i < 0 || i>2 || j < 0 || j>2)
@@ -43,23 +43,25 @@ namespace T3
 	};
 
 
-	class T3State : public Game::State
+	class State : public Game::State
 	{
 	public:
-		T3State()
+		State()
+			:curr_player(X)
 		{
 			for (int i = 0; i < 3; i++)
 				for (int j = 0; j < 3; j++)
 					grid[i][j] = EMPTY;
 		}
-		T3State(const T3State& state)
+		State(const State& state)
+			:curr_player(state.curr_player)
 		{
 			for (int i = 0; i < 3; i++)
 				for (int j = 0; j < 3; j++)
 					grid[i][j] = state.grid[i][j];
 		}
 
-		T3Outcome outcome() const
+		Outcome outcome() const
 		{
 			bool has_empty = false;
 
@@ -114,7 +116,7 @@ namespace T3
 				return TIE;
 		}
 
-		friend ostream& operator<<(ostream& os, const T3State& state)
+		friend ostream& operator<<(ostream& os, const State& state)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -140,11 +142,15 @@ namespace T3
 			}
 			return os;
 		}
-		friend void operator+=(T3State& state, const T3Move& move)
+		friend void operator+=(State& state, const Move& move)
 		{
 			int i = move.i;
 			int j = move.j;
 			Mark mark = move.mark;
+			if (mark != state.curr_player)
+			{
+				throw invalid_move();
+			}
 
 			if (state(i, j) != EMPTY)
 			{
@@ -155,6 +161,12 @@ namespace T3
 			{
 				state.set(i, j, mark);
 			}
+		}
+		State operator+(const Move& move) const
+		{
+			State result(*this);
+			result += move;
+			return result;
 		}
 
 		Mark operator()(int i, int j) const
@@ -168,6 +180,7 @@ namespace T3
 			grid[i][j] = mark;
 		}
 
+		Mark curr_player;
 		array<array<Mark, 3>, 3> grid;
 	};
 }
