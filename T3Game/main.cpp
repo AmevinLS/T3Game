@@ -40,11 +40,6 @@ Outcome run_game(map<Mark, Player*> players)
 
 int main1()
 {
-	State start_state;
-	Game_Node* root = build_t3_tree(start_state);
-	assign_xots(root);
-
-
 	system("pause");
 	return 0;
 }
@@ -53,7 +48,7 @@ int main()
 {
 	map<Mark, Player*> players;
 	PropCompPlayer a;
-	RandomPlayer b;
+	PropCompPlayer b;
 	players[X] = &a;
 	players[O] = &b;
 	Outcome outcome = run_game(players);
