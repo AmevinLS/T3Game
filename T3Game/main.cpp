@@ -42,6 +42,8 @@ int main()
 {
 	State start_state;
 	Game_Node* root = build_t3_tree(start_state);
+	assign_xots(root);
+
 
 	system("pause");
 	return 0;

@@ -7,6 +7,22 @@ using namespace T3;
 
 namespace T3
 {
+	//Structure with wins/losses/ties
+	struct XOT
+	{
+
+		void operator+=(const XOT& wlt)
+		{
+			x_wins += wlt.x_wins;
+			o_wins += wlt.o_wins;
+			ties += wlt.ties;
+		}
+
+		int x_wins;
+		int o_wins;
+		int ties;
+	};
+
 	class Game_Node
 	{
 	public:
@@ -21,6 +37,7 @@ namespace T3
 
 		State state;
 		vector<Game_Node*> childs;
+		XOT xot;
 	};
 
 	Game_Node* build_t3_tree(const State& start_state)
@@ -47,5 +64,35 @@ namespace T3
 		}
 
 		return game_node;
+	}
+
+	void assign_xots(Game_Node* tree)
+	{
+		if (tree->childs.size() == 0)
+		{
+			Outcome outcome = tree->state.outcome();
+			switch (outcome)
+			{
+			case X_WINS:
+				tree->xot.x_wins = 1;
+				break;
+			case O_WINS:
+				tree->xot.o_wins = 1;
+				break;
+			case TIE:
+				tree->xot.ties = 1;
+				break;
+			case UNFINISHED:
+				throw;
+			}
+		}
+		else
+		{
+			for (auto child : tree->childs)
+			{
+				assign_xots(child);
+				tree->xot += child->xot;
+			}
+		}
 	}
 }
