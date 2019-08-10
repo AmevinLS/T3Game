@@ -1,10 +1,11 @@
 #include <iostream>
 #include <map>
-//#include <vector>
 #include <array>
+
 
 #include "t3_game.h"
 #include "t3_players.h"
+#include "game_tree.h"
 
 
 using namespace std;
@@ -39,8 +40,17 @@ Outcome run_game(map<Mark, Player*> players)
 
 int main()
 {
+	State start_state;
+	Game_Node* root = build_t3_tree(start_state);
+
+	system("pause");
+	return 0;
+}
+
+int main2()
+{
 	map<Mark, Player*> players;
-	RandomPlayer a;
+	HumanPlayer a;
 	RandomPlayer b;
 	players[X] = &a;
 	players[O] = &b;

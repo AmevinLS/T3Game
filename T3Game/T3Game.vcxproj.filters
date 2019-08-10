@@ -29,5 +29,8 @@
     <ClInclude Include="t3_players.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="game_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

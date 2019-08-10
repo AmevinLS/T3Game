@@ -15,7 +15,7 @@ namespace T3
 	{
 		EMPTY = 0,
 		X = 1,
-		O = -1,
+		O = -1
 	};
 	enum Outcome
 	{

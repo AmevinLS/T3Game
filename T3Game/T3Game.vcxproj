@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game_base.h" />
+    <ClInclude Include="game_tree.h" />
     <ClInclude Include="t3_game.h" />
     <ClInclude Include="t3_players.h" />
   </ItemGroup>
