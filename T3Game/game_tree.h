@@ -18,6 +18,11 @@ namespace T3
 			ties += wlt.ties;
 		}
 
+		int total() const
+		{
+			return x_wins + o_wins + ties;
+		}
+
 		int x_wins;
 		int o_wins;
 		int ties;
@@ -26,17 +31,17 @@ namespace T3
 	class Game_Node
 	{
 	public:
-		Game_Node()
-		{
+		//Game_Node()
+		//{
 
-		}
+		//}
 		Game_Node(const State& st)
-		{
-			state = st;
-		}
+			: state(st)
+		{}
 
 		State state;
 		vector<Game_Node*> childs;
+		vector<Move> moves;
 		XOT xot;
 	};
 
@@ -59,6 +64,7 @@ namespace T3
 					State next_state = start_state + curr_move;
 					Game_Node* child = build_t3_tree(next_state);
 					game_node->childs.push_back(child);
+					game_node->moves.push_back(curr_move);
 				}
 			}
 		}

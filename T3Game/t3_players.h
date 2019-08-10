@@ -3,6 +3,7 @@
 #include "game_base.h"
 #include "t3_game.h"
 #include <ctime>
+#include "game_tree.h"
 
 namespace T3 {
 	class Player : public Game::Player
@@ -111,6 +112,40 @@ namespace T3 {
 					srand(unsigned int(time(NULL)));
 				}
 			}
+		}
+	};
+
+	class PropCompPlayer : public Player
+	{
+	public:
+		Move select_move(const State& state) override
+		{
+			Game_Node* tree = build_t3_tree(state);
+			assign_xots(tree);
+
+			int best_i = 0;
+			float best_val = -1;
+
+			for (int i = 0; i < tree->childs.size(); i++)
+			{
+				Game_Node* child = tree->childs[i];
+				Move move = tree->moves[i];
+				float val_i = -1;
+				if (state.get_curr_mark() == X)
+				{
+					val_i = float(child->xot.x_wins) / child->xot.total();
+				}
+				else
+				{
+					val_i = float(child->xot.o_wins) / child->xot.total();
+				}
+				if (val_i > best_val)
+				{
+					best_val = val_i;
+					best_i = i;
+				}
+			}
+			return tree->moves[best_i];
 		}
 	};
 }
