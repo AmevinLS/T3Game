@@ -41,7 +41,7 @@ namespace T3
 		{}
 
 		State state;
-		vector<Game_Node<XOT>*> childs;
+		vector<Game_Node<T>*> childs;
 		vector<Move> moves;
 		T utility;
 	};

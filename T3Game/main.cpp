@@ -47,8 +47,8 @@ int main1()
 int main()
 {
 	map<Mark, Player*> players;
-	PropCompPlayer a;
-	PropCompPlayer b;
+	MiniMaxPlayer a;
+	HumanPlayer b;
 	players[X] = &a;
 	players[O] = &b;
 	Outcome outcome = run_game(players);

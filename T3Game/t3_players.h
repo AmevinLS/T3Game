@@ -116,12 +116,13 @@ namespace T3 {
 	};
 	//*TODO
 
+	template<typename T>
 	class TreePlayer : public Player
 	{
 	public:
-		virtual Game_Node<XOT>* build_t3_tree(const State& start_state)
+		virtual Game_Node<T>* build_t3_tree(const State& start_state)
 		{
-			Game_Node<XOT>* game_node = new Game_Node<XOT>(start_state);
+			Game_Node<T>* game_node = new Game_Node<T>(start_state);
 			if (start_state.outcome() != UNFINISHED)
 			{
 				return game_node;
@@ -136,7 +137,7 @@ namespace T3 {
 					if (start_state.is_legal_move(curr_move))
 					{
 						State next_state = start_state + curr_move;
-						Game_Node<XOT>* child = build_t3_tree(next_state);
+						Game_Node<T>* child = build_t3_tree(next_state);
 						game_node->childs.push_back(child);
 						game_node->moves.push_back(curr_move);
 					}
@@ -147,7 +148,7 @@ namespace T3 {
 		}
 	};
 
-	class PropCompPlayer : public TreePlayer
+	class PropCompPlayer : public TreePlayer<XOT>
 	{
 	public:
 		Move select_move(const State& state) override
@@ -211,6 +212,96 @@ namespace T3 {
 					assign_xots(child);
 					tree->utility += child->utility;
 				}
+			}
+		}
+	};
+
+	class MiniMaxPlayer : public TreePlayer<double>
+	{
+	public:
+		Move select_move(const State& state)
+		{
+			Game_Node<double>* tree = build_t3_tree(state);
+			assign_doubles(tree);
+			
+			int best_i = 0;
+
+			double best_val = (tree->state.get_curr_mark()==X) ? -1 : 1;
+
+			for (int i = 0; i < tree->childs.size(); i++)
+			{
+				auto& child = tree->childs[i];
+				Move move = tree->moves[i];
+				if (tree->state.get_curr_mark() == X)
+				{
+					if (child->utility > best_val)
+					{
+						best_val = child->utility;
+						best_i = i;
+					}
+				}
+				else
+				{
+					if (child->utility < best_val)
+					{
+						best_val = child->utility;
+						best_i = i;
+					}
+				}
+				cout << "Move: " << move.i + 1 << ' ' << move.j + 1 << " Val_i: " << child->utility << endl;
+			}
+			
+			cout << "Best_val: " << best_val << endl;
+
+			return tree->moves[best_i];
+		}
+	private:
+		void assign_doubles(Game_Node<double>* tree)
+		{
+			if (tree->childs.size() == 0)
+			{
+				Outcome outcome = tree->state.outcome();
+				switch (outcome)
+				{
+				case X_WINS:
+					tree->utility = 1;
+					break;
+				case O_WINS:
+					tree->utility = -1;
+					break;
+				case TIE:
+					tree->utility = 0;
+					break;
+				case UNFINISHED:
+					throw;
+				}
+			}
+			else
+			{
+				for (auto& child : tree->childs)
+				{
+					assign_doubles(child);
+				}
+
+				double best_val = (tree->state.get_curr_mark() == X) ? -1 : 1;
+				for (auto& child : tree->childs)
+				{
+					if (tree->state.get_curr_mark() == X)
+					{
+						if (child->utility > best_val)
+						{
+							best_val = child->utility;
+						}
+					}
+					else
+					{
+						if (child->utility < best_val)
+						{
+							best_val = child->utility;
+						}
+					}
+				}
+				tree->utility = best_val;
 			}
 		}
 	};
